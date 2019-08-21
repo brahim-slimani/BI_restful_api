@@ -1,29 +1,29 @@
-package com.slimani.rest_reporting.controllers.rest;
+package com.slimani.rest_reporting.restfulControllers.rest;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.slimani.rest_reporting.controllers.UserController;
-import com.slimani.rest_reporting.controllers.pojoRest.ReportPojo;
+import com.slimani.rest_reporting.entities.Dashboard;
+import com.slimani.rest_reporting.restfulControllers.UserController;
+import com.slimani.rest_reporting.restfulControllers.pojoRest.DashboardPojo;
+import com.slimani.rest_reporting.restfulControllers.pojoRest.ReportPojo;
 import com.slimani.rest_reporting.dao.*;
 import com.slimani.rest_reporting.entities.Report;
 import com.slimani.rest_reporting.entities.User;
 import com.slimani.rest_reporting.param.aesEncryption.AESCrypt;
+import com.slimani.rest_reporting.restfulControllers.pojoRest.UserPojo;
 import com.slimani.rest_reporting.security.pojo.JwtUser;
-import com.slimani.rest_reporting.security.pojo.UserDetails;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.apache.catalina.mapper.Mapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -105,6 +105,112 @@ public class ServiceController {
 
     }
 
+    //save dash
+    @PostMapping(value = "olap/saveDashboard")
+    public ObjectNode saveDashboard(@RequestBody DashboardPojo dashboardPojo) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode node = objectMapper.createObjectNode();
+
+        JSONObject reportJSONObject = new JSONObject("{ reports: " + dashboardPojo.getReportsString() + "}");
+        JSONArray reportJSONArray = reportJSONObject.getJSONArray("reports");
+
+        List<Report> reports = new ArrayList<>();
+
+        JSONObject reportObject;
+        for (int i = 0; i < reportJSONArray.length(); i++) {
+            reportObject = reportJSONArray.getJSONObject(i);
+            Report resultReport = reportRepository.findReportByTitleAndContext(reportObject.getString("title"), reportObject.getString("context"));
+            reports.add(resultReport);
+        }
+
+        Dashboard dashboard = new Dashboard();
+        dashboard.setTitle(dashboardPojo.getTitle());
+        dashboard.setUserD(userRepository.findUserByName(dashboardPojo.getUsername()));
+        dashboard.setReports(reports);
+        dashboardRepository.save(dashboard);
+        try {
+            List<Dashboard> dashboards = new ArrayList<>();
+            dashboards.add(dashboard);
+            Iterator<Report> iterator = reports.iterator();
+            while (iterator.hasNext()){
+                iterator.next().setDashboards(dashboards);
+                reportRepository.save(iterator.next());
+            }
+
+
+            node.put("response", "Dashboard created successfully !");
+            return node;
+        } catch (Exception e) {
+            node.put("response", "Operation failed, REST issue !");
+            System.out.println("catch" + e);
+            return node;
+        }
+
+    }
+
+
+    // delete dashboard
+    @DeleteMapping(value = "olap/deleteDashboard")
+    public ObjectNode deleteDashboard(@RequestParam String title) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode node = objectMapper.createObjectNode();
+
+        try {
+            dashboardRepository.delete(dashboardRepository.findDashboardByTitle(title));
+
+            node.put("response", "Dashboard deleted successfully !");
+            return node;
+        } catch (Exception e) {
+
+            node.put("response", "Operation failed, REST issue!");
+            return node;
+        }
+    }
+
+    //get all dashboards
+    @GetMapping(value = "olap/allDashboards")
+    public List<DashboardPojo> getAllDashboards() {
+        List<Dashboard> dashboards = dashboardRepository.findAll();
+        List<DashboardPojo> dashboardPojos = new ArrayList<>();
+        for (Dashboard dashboard : dashboards) {
+            dashboardPojos.add(new DashboardPojo(dashboard.getId(), dashboard.getTitle(), dashboard.getUserD().getUsername()));
+        }
+        return dashboardPojos;
+    }
+
+
+    //get dashboards of user
+    @GetMapping(value = "olap/dashboards")
+    public List<DashboardPojo> getDashboards(@RequestParam String username) {
+
+        List<Dashboard> dashboards = new ArrayList<>(userRepository.findUserByName(username).getDashboards());
+        System.out.println("dashboards size: " + dashboards.size());
+
+        List<DashboardPojo> customDashboards = new ArrayList<>();
+
+        for (Dashboard dashboard : dashboards) {
+            customDashboards.add(new DashboardPojo(dashboard.getId(), dashboard.getTitle()));
+        }
+
+
+        return customDashboards;
+    }
+
+
+    //get reports of dashboards
+    @GetMapping(value = "olap/dashboardReports/{id}")
+    public List<ReportPojo> getReportsByDashboard(@PathVariable("id") Long id) {
+
+        Dashboard dashboard = dashboardRepository.findDashboardById(id);
+        List<ReportPojo> reportsList = new ArrayList<>();
+        List<Report> reports;
+        reports = dashboard.getReports();
+        for (Report report : reports) {
+            reportsList.add(new ReportPojo(report.getTitle(), report.getContext(), report.getType(), report.getColumns(), report.getRows(), report.getUserR().getUsername()));
+        }
+        return reportsList;
+    }
+
     //save report in MV
     @PostMapping(value = "olap/createMV")
     public ObjectNode createMV(@RequestParam String queryMV){
@@ -144,6 +250,7 @@ public class ServiceController {
     }
 
 
+
     //delete user
     @DeleteMapping(value = "olap/deleteUser")
     public ObjectNode deleteUser(@RequestParam String username){
@@ -165,6 +272,7 @@ public class ServiceController {
 
 
     }
+
 
     //delete report
     @DeleteMapping(value = "olap/deleteReport")
@@ -338,7 +446,58 @@ public class ServiceController {
     }
 
 
+    // get email by username
+    @GetMapping(value = "olap/checkEmail")
+    public ObjectNode getEmail(@RequestParam String username) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode node = objectMapper.createObjectNode();
 
+        String mail = userRepository.getMail(username);
+        if(mail != null){
+            node.put("email", mail);
+        }
+        else{
+            node.put("email", "email doesn't exist");
+        }
+
+        return node;
+
+    }
+
+
+    // update user password after the first login
+    @PostMapping(value = "olap/updateUser")
+    public ObjectNode updateUserPassword(@RequestBody UserPojo user) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode node = objectMapper.createObjectNode();
+        User u = userRepository.findUserByName(user.getUsername());
+        u.setPassword(user.getPassword());
+        u.setMail(user.getMail());
+
+        try {
+            userRepository.save(u);
+            node.put("response", "Password updated successfully !");
+            return node;
+        } catch (Exception e) {
+            node.put("response", "Operation failed, REST issue !");
+            System.out.println("catch" + e);
+            return node;
+        }
+
+    }
+
+
+
+
+    // find all emails
+    @GetMapping(value = "olap/usersEmails")
+    public ArrayNode findAllEmails() {
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> emailsList = userRepository.findAllEmails();
+        ArrayNode arrayNode = mapper.valueToTree(emailsList);
+        return arrayNode;
+    }
 
 
 

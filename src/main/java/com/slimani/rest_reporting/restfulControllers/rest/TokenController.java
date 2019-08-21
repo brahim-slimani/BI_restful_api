@@ -1,9 +1,9 @@
-package com.slimani.rest_reporting.controllers.rest;
+package com.slimani.rest_reporting.restfulControllers.rest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.slimani.rest_reporting.controllers.UserController;
+import com.slimani.rest_reporting.restfulControllers.UserController;
 import com.slimani.rest_reporting.dao.UserRepository;
 import com.slimani.rest_reporting.security.JwtGenerator;
 import com.slimani.rest_reporting.security.pojo.*;

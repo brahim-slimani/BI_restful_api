@@ -1,4 +1,4 @@
-package com.slimani.rest_reporting.controllers.rest;
+package com.slimani.rest_reporting.restfulControllers.rest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

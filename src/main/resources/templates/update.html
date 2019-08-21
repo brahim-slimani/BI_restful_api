@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SONELGAZ BI & REPORTING</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style2.css">
+
+
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<!--banner-->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"><img src="/img/elit.png" class="img-responsive" style="width: 140px; margin-top: -16px;"></a>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+                        <ul class="nav navbar-nav">
+
+                            <li class=""><a>ADMIN</a></li>
+                            <li class=""><a href="/" onclick="if (!confirm('Are sur that you want to logout ? '))return false ">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+
+            <div class="row">
+
+                <div class="banner-info">
+                    <div style="margin-top: -90px">
+                        <h3 style="color: white ">Acounts and privileges Management for decision Makers</h3>
+                    </div>
+                    <br>
+
+
+                    <!--update form-->
+                    <div>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title">Updating User</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:object="${userupdate}" th:action="@{/saveEdit}"  action="#" method="post" >
+
+                                        <div class="form-group">
+                                            <label for="nameUpdate" class="col-form-label">User Name</label>
+                                            <input type="text" name="name" class="form-control " id="nameUpdate" required th:field="*{username}"  placeholder="Name" data-rule="minlen:4" />
+                                            <div class="validation"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="passwordUpdate" class="col-form-label">User Password</label>
+                                            <input type="text" class="form-control" name="password" id="passwordUpdate" required th:value="*{clarifyAES()}" placeholder="Password"   />
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="roleUpdate" class="col-form-label">User Role</label>
+                                            <select type="text" class="form-control " name="role" id="roleUpdate" th:field="*{role}" placeholder="Role"  >
+                                                <option value="ROLE_MM">ROLE_MM</option>
+                                                <option value="ROLE_SD">ROLE_SD</option>
+                                                <option value="ROLE_DD">ROLE_DD</option>
+                                                <option value="ROLE_AG">ROLE_AG</option>
+                                            </select>
+                                            <div class="validation"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="mailUpdate" class="col-form-label">User Email</label>
+                                            <input type="email" class="form-control " name="mail" id="mailUpdate"  th:field="*{mail}" placeholder="Email"   />
+                                            <div class="validation"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="contactUpdate" class="col-form-label">User contact</label>
+                                            <input type="number" class="form-control " name="contact" id="contactUpdate"  th:field="*{contact}" placeholder="Contact"   />
+                                            <div class="validation"></div>
+                                        </div>
+
+                                        <div class="form-action modal-footer">
+                                            <a th:href="@{/return}" class="btn btn-outline pull-left"  >Cancel</a>
+                                            <button type="submit" class="btn btn-outline pull-right" style="background-color: #0e6aa8;"><i class="fa fa-check"></i>&nbsp;Save User</button>
+                                        </div>
+
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ banner-->
+
+
+
+
+
+
+
+
+<!--footer-->
+<footer id="footer">
+    <div class="top-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 marb20">
+                    <div class="ftr-tle">
+                        <h4 class="white no-padding">About</h4>
+                    </div>
+                    <div class="info-sec">
+                        <p>SONELGAZ's IT subsidiary, responsible for implementing information systems and information and communication technologies.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 marb20">
+                    <div class="ftr-tle">
+                        <h4 class="white no-padding">Quick Links</h4>
+                    </div>
+                    <div class="info-sec">
+                        <ul class="quick-info">
+                            <li><a href="http://www.esi-sba.dz/" target="_blank"><i class="fa fa-circle"></i>ESI-SBA</a></li>
+                            <li><a href="https://www.elit.dz/" target="_blank"><i class="fa fa-circle"></i>ELIT</a></li>
+                            <li><a href="https://www.sonelgaz.dz/" target="_blank"><i class="fa fa-circle"></i>SONELGAZ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 marb20">
+                    <div class="ftr-tle">
+                        <h4 class="white no-padding">Follow us</h4>
+                    </div>
+                    <div class="info-sec">
+                        <ul class="social-icon">
+                            <li class="bgdark-blue"><a href="https://github.com/Slimani-Ibrahim" target="_blank"><i class="fa fa-github"></i></a></li>
+                            <li class="bgdark-blue"><a href="https://www.linkedin.com/in/slimani-ibrahim-184161b2/?originalSubdomain=dz" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-line">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    © Copyright ESI-SBA & ELIT 2019. All Rights Reserved
+                    <div class="credits">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--/ footer-->
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/contactform/contactform.js"></script>
+
+
+</body>
+
+</html>

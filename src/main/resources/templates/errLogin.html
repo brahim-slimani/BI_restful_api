@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SONELGAZ BI & REPORTING</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<!--banner-->
+<section id="banner" class="banner">
+  <div class="bg-color">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="col-md-12">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img src="img/elit.png" class="img-responsive" style="width: 140px; margin-top: -16px;"></a>
+          </div>
+          <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#banner">Home</a></li>
+              <li class=""><a href="#service">Services</a></li>
+              <li class=""><a href="#cta-2">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="banner-info">
+          <div class="banner-logo text-center" >
+            <h3 style="color: #d43f3a; margin-top: -50px">Error auth, verify your login parameters !</h3>
+            <img src="img/sonelgaz.png" class="img-responsive" style="height: 120px; width: 120px">
+          </div>
+          <div class="banner-text text-center">
+            <h2 class="white">SONELGAZ BI & REPORTING</h2>
+            <br/>
+            <p>This application is dedicated to the administrator of BI & reporting tool<br>the application designed for the management of counts and privileges of the users and decions Maker </p>
+
+            <!-- <p>SONELGAZ BI & REPORTING Tool is an application that allows decisions Maker of SONELGAZ Company to make Business Intelligence and reporting <br>This are established over data warehouse via a mobile application</p>-->
+            <a data-toggle="modal" class="btn btn-appoint" th:attr="data-target='#modal-login'" style="background-color: #F98A00;">Login as admin</a>
+          </div>
+          <div class="overlay-detail text-center">
+            <a href="#service"><i class="fa fa-angle-down"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ banner-->
+<!--service-->
+<section id="service" class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4">
+        <h2 class="ser-title">SONELGAZ BI Tool</h2>
+        <hr class="botm-line">
+        <p>Sonelgaz BI tool is a decision-making system built around a data warehouse for commercial reporting and business intelligence through mobile application that depends on OLAP as Service provided by spring application.</p>
+        <br><br>
+        <img src="img/mobile-1.jpg" style="height: 250px; width: 300px">
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="service-info">
+          <div class="icon">
+            <i class="fa fa-cube"></i>
+          </div>
+          <div class="icon-info">
+            <h4>Ad Hoc Analysis</h4>
+            <p>The BI tool of SONELGAZ allows user and decisions maker to analyse differents measures in terms of any dimensions flexibly.</p>
+          </div>
+        </div>
+        <div class="service-info">
+          <div class="icon">
+            <i class="fa fa-bar-chart"></i>
+          </div>
+          <div class="icon-info">
+            <h4>Reporting</h4>
+            <p>Creating the reports dynamically for activities of connection new customer electricity and gas</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="service-info">
+          <div class="icon">
+            <i class="fa fa-line-chart"></i>
+          </div>
+          <div class="icon-info">
+            <h4>Dashboards</h4>
+            <p>Generating dashboards to maintain crucial informations in decision making through graphical representations.</p>
+          </div>
+        </div>
+        <div class="service-info">
+          <div class="icon">
+            <i class="fa fa-unlock-alt"></i>
+          </div>
+          <div class="icon-info">
+            <h4>Privileges and accounts management</h4>
+            <p>Managing through this application the accounts of users and decision-makers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ service-->
+
+<!--login-->
+
+<div class="modal modal-warning fade in" th:id="modal-login" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h5 class="modal-title">Authenticate</h5>
+      </div>
+      <div class="modal-body">
+
+        <form  th:object="${user}" th:action="@{admin}"  action="#" method="post" >
+
+
+          <div class="form-group">
+            <input type="text" name="name"  class="form-control" id="name" th:field="*{username}"  placeholder="Your Name" data-rule="minlen:4" required data-msg="Please enter at least 4 chars" />
+            <div class="validation"></div>
+          </div>
+          <div class="form-group">
+            <input type="Password" class="form-control" name="password" id="password" th:field="*{password}" placeholder="Your Password" required data-rule="password" data-msg="Please enter a valid password" />
+            <div class="validation"></div>
+          </div>
+
+          <div>
+            <span  th:errors="*{password}" class="text-danger"></span>
+          </div>
+
+
+          <span th:if="${logError != null}" id="log" class="error">Wrong user or password</span>
+
+
+          <div class="form-action">
+            <button type="submit" class="btn btn-appoint" onclick="errorLog()" >Login</button>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+<section id="login" class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="ser-title">Authenticate</h2>
+        <hr class="botm-line">
+      </div>
+      <div class="col-md-4 col-sm-4">
+
+        <div class="space"></div>
+
+      </div>
+      <div class="col-md-6 offset-md-4 marb20">
+        <div class="contact-info">
+          <h3 class="cnt-ttl">Login as administrator !</h3>
+          <div class="space"></div>
+
+          <div id="errormessage"></div>
+
+          <form  th:object="${user}" th:action="@{login}"  action="#" method="post" >
+            <div class="form-group">
+              <input type="text" name="name"  class="form-control br-radius-zero" id="name" th:field="*{username}"  placeholder="Your Name" data-rule="minlen:4" required data-msg="Please enter at least 4 chars" />
+              <div class="validation"></div>
+            </div>
+            <div class="form-group">
+              <input type="Password" class="form-control br-radius-zero" name="password" id="password" th:field="*{password}" placeholder="Your Password" required data-rule="password" data-msg="Please enter a valid password" />
+              <div class="validation"></div>
+            </div>
+
+            <div class="form-action">
+              <button type="submit" class="btn btn-form" style="background-color: #F98A00;">Login</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+-->
+
+
+
+<!--cta 2-->
+<section id="cta-2" class="section-padding">
+  <div class="container">
+    <div class=" row">
+      <div class="col-md-2"></div>
+      <div class="text-right-md col-md-4 col-sm-4">
+        <h2 class="section-title white lg-line">« A few words<br> about »</h2>
+      </div>
+      <div class="col-md-4 col-sm-5">
+        This project is being developed at ELIT as part of a final project of study to obtain the diploma of computer engineer in the computer science school ESI-SBA.
+        <p class="text-right text-primary"><i>— ESI-SBA & ELIT</i></p>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</section>
+<!--cta-->
+
+<!--footer-->
+<footer id="footer">
+  <div class="top-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-4 marb20">
+          <div class="ftr-tle">
+            <h4 class="white no-padding">About</h4>
+          </div>
+          <div class="info-sec">
+            <p>SONELGAZ's IT subsidiary, responsible for implementing information systems and information and communication technologies.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 marb20">
+          <div class="ftr-tle">
+            <h4 class="white no-padding">Quick Links</h4>
+          </div>
+          <div class="info-sec">
+            <ul class="quick-info">
+              <li><a href="http://www.esi-sba.dz/" target="_blank"><i class="fa fa-circle"></i>ESI-SBA</a></li>
+              <li><a href="https://www.elit.dz/" target="_blank"><i class="fa fa-circle"></i>ELIT</a></li>
+              <li><a href="https://www.sonelgaz.dz/" target="_blank"><i class="fa fa-circle"></i>SONELGAZ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 marb20">
+          <div class="ftr-tle">
+            <h4 class="white no-padding">Follow us</h4>
+          </div>
+          <div class="info-sec">
+            <ul class="social-icon">
+              <li class="bgdark-blue"><a href="https://github.com/Slimani-Ibrahim" target="_blank"><i class="fa fa-github"></i></a></li>
+              <li class="bgdark-blue"><a href="https://www.linkedin.com/in/slimani-ibrahim-184161b2/?originalSubdomain=dz" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-line">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          © Copyright ESI-SBA & ELIT 2019. All Rights Reserved
+          <div class="credits">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!--/ footer-->
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="contactform/contactform.js"></script>
+<script src="/js/script.js"></script>
+
+<script th:inline="javascript">
+
+  function errorLog() {
+
+
+    /*<![CDATA[*/
+
+    //  var message = /*[[${loginLog}]]*/ 'default';
+    //  alert(message);
+
+    /*]]>*/
+
+
+
+  }
+
+</script>
+
+</body>
+
+</html>

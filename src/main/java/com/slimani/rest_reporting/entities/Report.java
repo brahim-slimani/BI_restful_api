@@ -1,6 +1,9 @@
 package com.slimani.rest_reporting.entities;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -34,7 +37,7 @@ public class Report {
     @NotNull
     private String rows;
 
-    @ManyToMany(mappedBy = "reports", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "reports", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Dashboard> dashboards;
 
     @ManyToOne

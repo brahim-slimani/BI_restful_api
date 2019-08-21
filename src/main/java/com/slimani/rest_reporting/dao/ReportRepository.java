@@ -15,4 +15,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     @Query("SELECT r FROM Report r WHERE r.title = :title")
     Report findReportByTitle(@Param("title") String title);
 
+    @Query("SELECT r FROM Report r WHERE r.title = :title and r.context = :context" )
+    Report findReportByTitleAndContext(@Param("title") String title, @Param("context") String context);
+
 }

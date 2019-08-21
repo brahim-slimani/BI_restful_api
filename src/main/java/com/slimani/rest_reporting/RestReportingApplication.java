@@ -56,13 +56,11 @@ public class RestReportingApplication implements CommandLineRunner {
             }
 
             if (userRepository.findUsersByName("admin").size()<1){
-                //userRepository.save(new User("admin",bCryptPasswordEncoder.encode("elit2019"),
-                  //      roleRepository.findRolesByName("ROLE_ADMIN")));
-                userRepository.save(new User("admin",aesCrypt.encrypt("elit2019"),
+
+                userRepository.save(new User("admin",aesCrypt.encrypt("admin"),
                       roleRepository.findRolesByName("ROLE_ADMIN")));
             }
 
-            System.out.println(aesCrypt.encrypt("elit2019"));
 
 
 

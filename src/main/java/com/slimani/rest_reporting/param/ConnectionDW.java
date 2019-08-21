@@ -10,7 +10,7 @@ public class ConnectionDW {
         Connection connection = null;
 
         try {
-            String url = "jdbc:postgresql://127.0.0.1:5432/datamart_branchement";
+            String url = "jdbc:postgresql://127.0.0.1:5432/dw_rcn";
             Class.forName("org.postgresql.Driver");
             connection = (Connection) DriverManager.getConnection(url, "postgres", "postgres");
 

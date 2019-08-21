@@ -1,7 +1,8 @@
-package com.slimani.rest_reporting.controllers.pojoRest;
+package com.slimani.rest_reporting.restfulControllers.pojoRest;
 
 public class ReportPojo {
 
+    private Long id;
     private String title;
     private String context;
     private String type;
@@ -18,6 +19,25 @@ public class ReportPojo {
         this.columns = columns;
         this.rows = rows;
         this.username = username;
+    }
+/*
+    public ReportPojo(Long id, String title, String context) {
+        this.id = id;
+        this.title = title;
+        this.context = context;
+    }
+
+    public ReportPojo(String title, String context) {
+        this.title = title;
+        this.context = context;
+    }*/
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

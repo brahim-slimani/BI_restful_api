@@ -2,15 +2,13 @@ package com.slimani.rest_reporting.config;
 
 
 
-import com.slimani.rest_reporting.security.JwtAuthenticationEntryPoint;
-import com.slimani.rest_reporting.security.JwtAuthenticationProvider;
-import com.slimani.rest_reporting.security.JwtAuthenticationTokenFilter;
-import com.slimani.rest_reporting.security.JwtSuccessHandler;
+import com.slimani.rest_reporting.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,6 +29,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationProvider authenticationProvider;
     @Autowired
     private JwtAuthenticationEntryPoint entryPoint;
+
+    @Autowired
+    private UserDetailServiceImpl userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -68,5 +69,26 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
 
+
+        http
+                .authorizeRequests().antMatchers("/**").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/", "add","users", "delete/{id}").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/index")
+                .defaultSuccessUrl("/users")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
+
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }

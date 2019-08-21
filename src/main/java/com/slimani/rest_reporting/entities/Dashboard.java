@@ -37,6 +37,11 @@ public class Dashboard {
         this.userD = userD;
     }
 
+    public Dashboard(@NotNull String title, List<Report> reports) {
+        this.title = title;
+        this.reports = reports;
+    }
+
     public Long getId() {
         return id;
     }

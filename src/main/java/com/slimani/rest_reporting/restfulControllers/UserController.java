@@ -1,4 +1,4 @@
-package com.slimani.rest_reporting.controllers;
+package com.slimani.rest_reporting.restfulControllers;
 
 import com.slimani.rest_reporting.dao.RoleRepository;
 import com.slimani.rest_reporting.dao.UserRepository;
@@ -44,14 +44,13 @@ public class UserController {
 
 
 
-
     }
 
     public void register(JwtUser user, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bcr){
         List<Role> roles = roleRepository.findRolesByName(user.getRole());
         //userRepository.save(new User(user.getUserName(), bcr.encode(user.getPassword()),roles));
 
-        userRepository.save(new User(user.getUserName(), user.getPassword(),roles));
+        userRepository.save(new User(user.getUserName(), user.getPassword(),roles, user.getEmail()));
 
 
 

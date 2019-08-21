@@ -12,5 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface DashboardRepository extends JpaRepository<Dashboard, Long> {
 
     @Query("SELECT d FROM Dashboard d WHERE d.title = :title")
-    Report findDashboardByTitle(@Param("title") String title);
+    Dashboard findDashboardByTitle(@Param("title") String title);
+
+    @Query("SELECT d FROM Dashboard d WHERE d.id = :id")
+    Dashboard findDashboardById(@Param("id") Long id);
 }

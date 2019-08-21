@@ -6,6 +6,7 @@ public class JwtUser {
     private String userName;
     private String role;
     private String password;
+    private String email;
 
     public JwtUser() {
 
@@ -43,6 +44,14 @@ public class JwtUser {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public JwtUser(long id, String userName, String role, String password) {
         this.id = id;
         this.userName = userName;
@@ -61,5 +70,12 @@ public class JwtUser {
         this.password = password;
         this.role = role;
 
+    }
+
+    public JwtUser(String userName, String role, String password, String email) {
+        this.userName = userName;
+        this.role = role;
+        this.password = password;
+        this.email = email;
     }
 }
